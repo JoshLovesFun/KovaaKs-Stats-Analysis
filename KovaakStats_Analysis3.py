@@ -5,10 +5,6 @@ from pptx import Presentation
 from pptx.chart.data import CategoryChartData, ChartData, XyChartData
 from pptx.enum.chart import XL_CHART_TYPE
 from pptx.util import Inches
-
-
-
-
 # ENTER KOVAAK STATS PATH
 path = "C:\Program Files (x86)\Steam\steamapps\common\FPSAimTrainer\FPSAimTrainer\stats"
 # THIS FUNCTION CREATES AN ARRAY OF ALL THE FILE NAMES IN THE PATH
@@ -43,6 +39,7 @@ for i in range(0, len(files)):
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
     # GET TASK DATE FROM FILE NAME
     Date = File_Name[File_Name.find(" - Challenge - ") + 15:File_Name.find(" Stats") - 9]
+    Date = Date[5:7] + "/" + Date[8:10] + "/" + Date[0:4]
     # ITERATE THROUGH EVERY LINE OF EACH KOVAAK STATS FILE
     # OPEN STATS FILES
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
@@ -187,41 +184,3 @@ for i in range(0, len(files)):
             Max_Score = 0
 # CLOSE EXCEL FILE
 wb.save('Kovaak_Stats_Analysis.xls')
-
-# create presentation with 1 slide ------
-prs = Presentation()
-
-slide = prs.slides.add_slide(prs.slide_layouts[5])
-slide.shapes.title.text = " Created By python-pptx"
-chart_data = ChartData()
-chart_data.categories = ['Q1 Sales', 'Q2 Sales', 'Q3 Sales']
-chart_data.add_series('Ave Scores',    (24.3, 30.6, 20.2))
-chart_data.add_series('Max Scores',    (32.2, 28.4, 34.7))
-x, y, cx, cy = Inches(0.5), Inches(2), Inches(9), Inches(4)
-chart = slide.shapes.add_chart(XL_CHART_TYPE.LINE, x, y, cx, cy, chart_data).chart
-chart.has_legend = True
-chart.legend.include_in_layout = False
-chart.series[0].smooth = True
-chart.series[1].smooth = True
-
-slide = prs.slides.add_slide(prs.slide_layouts[5])
-slide.shapes.title.text = " Created By python-pptx"
-chart_data = XyChartData()
-series_1 = chart_data.add_series('Model 1')
-series_1.add_data_point(0.7, 2.7)
-series_1.add_data_point(1.8, 3.2)
-series_1.add_data_point(2.6, 0.8)
-
-series_2 = chart_data.add_series('Model 2')
-series_2.add_data_point(1.3, 3.7)
-series_2.add_data_point(2.7, 2.3)
-series_2.add_data_point(1.6, 1.8)
-
-chart = slide.shapes.add_chart(XL_CHART_TYPE.XY_SCATTER, x, y, cx, cy, chart_data).chart
-chart.has_legend = True
-chart.series[0].smooth = True
-chart.series[1].smooth = True
-
-#https://towardsdatascience.com/creating-presentations-with-python-3f5737824f61
-prs.save('test1.pptx')
-# WRITTEN BY JM contact: jmolvar10@gmail.com
