@@ -1,6 +1,8 @@
 from os import listdir
 from xlwt import Workbook, easyxf
 
+BOLD_FONT_FORMAT = easyxf('font: bold 1')
+
 # Example path to files associated with Steam account
 # path = (
 #     "C:\\Program Files (x86)\\Steam\\steamapps\\common\\"
@@ -21,22 +23,22 @@ sheet2 = wb.add_sheet('Daily Stats')
 sheet3 = wb.add_sheet('Monthly Stats')
 
 # Create Excel table titles
-sheet1.write(0, 0, 'Name', easyxf('font: bold 1'))
-sheet1.write(0, 1, 'Date', easyxf('font: bold 1'))
-sheet1.write(0, 2, 'Score', easyxf('font: bold 1'))
-sheet1.write(0, 3, 'Sens', easyxf('font: bold 1'))
-sheet2.write(0, 0, 'Name', easyxf('font: bold 1'))
-sheet2.write(0, 1, 'Date', easyxf('font: bold 1'))
-sheet2.write(0, 2, 'Daily Plays', easyxf('font: bold 1'))
-sheet2.write(0, 3, 'Ave Score', easyxf('font: bold 1'))
-sheet2.write(0, 4, 'Max Score', easyxf('font: bold 1'))
-sheet2.write(0, 5, 'Ave Sens', easyxf('font: bold 1'))
-sheet3.write(0, 0, 'Name', easyxf('font: bold 1'))
-sheet3.write(0, 1, 'Date', easyxf('font: bold 1'))
-sheet3.write(0, 2, 'Monthly Plays', easyxf('font: bold 1'))
-sheet3.write(0, 3, 'Ave Score', easyxf('font: bold 1'))
-sheet3.write(0, 4, 'Max Score', easyxf('font: bold 1'))
-sheet3.write(0, 5, 'Ave Sens', easyxf('font: bold 1'))
+sheet1.write(0, 0, 'Name', BOLD_FONT_FORMAT)
+sheet1.write(0, 1, 'Date', BOLD_FONT_FORMAT)
+sheet1.write(0, 2, 'Score', BOLD_FONT_FORMAT)
+sheet1.write(0, 3, 'Sens', BOLD_FONT_FORMAT)
+sheet2.write(0, 0, 'Name', BOLD_FONT_FORMAT)
+sheet2.write(0, 1, 'Date', BOLD_FONT_FORMAT)
+sheet2.write(0, 2, 'Daily Plays', BOLD_FONT_FORMAT)
+sheet2.write(0, 3, 'Ave Score', BOLD_FONT_FORMAT)
+sheet2.write(0, 4, 'Max Score', BOLD_FONT_FORMAT)
+sheet2.write(0, 5, 'Ave Sens', BOLD_FONT_FORMAT)
+sheet3.write(0, 0, 'Name', BOLD_FONT_FORMAT)
+sheet3.write(0, 1, 'Date', BOLD_FONT_FORMAT)
+sheet3.write(0, 2, 'Monthly Plays', BOLD_FONT_FORMAT)
+sheet3.write(0, 3, 'Ave Score', BOLD_FONT_FORMAT)
+sheet3.write(0, 4, 'Max Score', BOLD_FONT_FORMAT)
+sheet3.write(0, 5, 'Ave Sens', BOLD_FONT_FORMAT)
 
 # Iterate through all KovaaK's stats files ####################################
 for i in range(0, len(files)):
@@ -64,7 +66,7 @@ for i in range(0, len(files)):
                 Sens = ii[12:].strip()
         # Convert valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
-            Sens = round(16.33/round(float(Sens), 2), 2)
+            Sens = round(16.33 / round(float(Sens), 2), 2)
             Sens = str(Sens)
         # Write results to text file
         sheet1.write(i+1, 0, Task_Name)
@@ -117,7 +119,7 @@ for i in range(0, len(files)):
                 Sens = ii[12:].strip()
         # Convert valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
-            Sens = round(16.33/round(float(Sens), 2), 2)
+            Sens = round(16.33 / round(float(Sens), 2), 2)
         # Pull max value from range
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
@@ -199,7 +201,7 @@ for i in range(0, len(files)):
                 Sens = ii[12:].strip()
         # Convert valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
-            Sens = round(16.33/round(float(Sens), 2), 2)
+            Sens = round(16.33 / round(float(Sens), 2), 2)
         # Pull max value from range
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
@@ -237,4 +239,4 @@ for i in range(0, len(files)):
             Max_Score = 0
 
 # Close Excel file
-wb.save('KovaaK_Stats_Analysis.xls')
+wb.save('KovaaKs_Stats_Analysis.xls')
