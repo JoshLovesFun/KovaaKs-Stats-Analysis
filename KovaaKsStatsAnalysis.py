@@ -1,23 +1,25 @@
 from os import listdir
 from xlwt import Workbook, easyxf
 
-# Enter KovaaK's stats path
-# Example path to files associated with steam account
-
+# Example path to files associated with Steam account
 # path = (
 #     "C:\\Program Files (x86)\\Steam\\steamapps\\common\\"
 #     "FPSAimTrainer\\FPSAimTrainer\\stats"
 # )
 
+# Enter KovaaK's stats path
 path = "C:\\code\\Python\\Github\\KovaaK-Stats-Analysis\\ExampleStats"
+
 # This function creates an array of all the file names in the path
 files = listdir(path)
 files.sort()
+
 # Create Excel workbook and worksheets
 wb = Workbook()
 sheet1 = wb.add_sheet('All Stats')
 sheet2 = wb.add_sheet('Daily Stats')
 sheet3 = wb.add_sheet('Monthly Stats')
+
 # Create Excel table titles
 sheet1.write(0, 0, 'Name', easyxf('font: bold 1'))
 sheet1.write(0, 1, 'Date', easyxf('font: bold 1'))
@@ -35,20 +37,23 @@ sheet3.write(0, 2, 'Monthly Plays', easyxf('font: bold 1'))
 sheet3.write(0, 3, 'Ave Score', easyxf('font: bold 1'))
 sheet3.write(0, 4, 'Max Score', easyxf('font: bold 1'))
 sheet3.write(0, 5, 'Ave Sens', easyxf('font: bold 1'))
+
 # Iterate through all KovaaK's stats files ####################################
 for i in range(0, len(files)):
     # Get task name from file name
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
+
     # Get task date from file name
     Date = File_Name[
            File_Name.find(" - Challenge - ") + 15:
            File_Name.find(" Stats") - 9
     ]
     Date = Date[5:7] + "/" + Date[8:10] + "/" + Date[0:4]
-    # Iterate through every line of each KovaaK's stats file
+
     # Open stats files
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
+        # Iterate through every line of each KovaaK's stats file
         for ii in csvfile:
             # If line has score in it
             if "Score" in ii:
@@ -66,6 +71,7 @@ for i in range(0, len(files)):
         sheet1.write(i+1, 1, Date)
         sheet1.write(i+1, 2, round(float(Score), 2))
         sheet1.write(i+1, 3, round(float(Sens), 2))
+
 # Iterate through all KovaaK's stats files daily ##############################
 Count = 1
 Score_Sum = 0
@@ -99,6 +105,7 @@ for i in range(0, len(files)):
             challenge_start + 15:stats_start - 9
         ]
         Future_Day = Future_Date[8:]
+
     # Open stats files
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
         # Iterate through every line of each KovaaK's stats file
@@ -148,6 +155,7 @@ for i in range(0, len(files)):
             Score_Sum = 0
             Sens_Sum = 0
             Max_Score = 0
+
 # Iterate through all KovaaK's stats files monthly ############################
 Count = 1
 Score_Sum = 0
@@ -180,6 +188,7 @@ for i in range(0, len(files)):
             challenge_start + 15:stats_start - 12
         ]
         Future_Month = Future_Date[5:7]
+
     # Open stats files
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
         # Iterate through every line of each KovaaK's stats file
@@ -229,5 +238,6 @@ for i in range(0, len(files)):
             Score_Sum = 0
             Sens_Sum = 0
             Max_Score = 0
+
 # Close Excel file
 wb.save('KovaaK_Stats_Analysis.xls')
