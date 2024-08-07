@@ -46,8 +46,8 @@ for i in range(0, len(files)):
 
     # Get task date from file name
     Date = File_Name[
-           File_Name.find(" - Challenge - ") + 15:
-           File_Name.find(" Stats") - 9
+        File_Name.find(" - Challenge - ") + 15:
+        File_Name.find(" Stats") - 9
     ]
     Date = Date[5:7] + "/" + Date[8:10] + "/" + Date[0:4]
 
@@ -82,11 +82,13 @@ for i in range(0, len(files)):
     # Get task name from file name
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
+
     # Get task date from file name
     Date = File_Name[
-           File_Name.find(" - Challenge - ") + 15:
-           File_Name.find(" Stats") - 9
+        File_Name.find(" - Challenge - ") + 15:
+        File_Name.find(" Stats") - 9
     ]
+
     # Get day
     Day = Date[8:]
 
@@ -98,12 +100,8 @@ for i in range(0, len(files)):
         Future_File_Name = files[i + 1]
         challenge_start = Future_File_Name.find(" - Challenge - ")
         stats_start = Future_File_Name.find(" Stats")
-        Future_Task_Name = Future_File_Name[
-            :challenge_start
-        ]
-        Future_Date = Future_File_Name[
-            challenge_start + 15:stats_start - 9
-        ]
+        Future_Task_Name = Future_File_Name[:challenge_start]
+        Future_Date = Future_File_Name[challenge_start + 15:stats_start - 9]
         Future_Day = Future_Date[8:]
 
     # Open stats files
@@ -166,11 +164,12 @@ for i in range(0, len(files)):
     # Get task name from file name
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
+
     # Get task date from file name
     challenge_start = File_Name.find(" - Challenge - ") + 15
     stats_end = File_Name.find(" Stats") - 12
-
     Date = File_Name[challenge_start:stats_end]
+
     # Get month
     Month = Date[5:7]
 
@@ -184,9 +183,7 @@ for i in range(0, len(files)):
         stats_start = Future_File_Name.find(" Stats")
 
         Future_Task_Name = Future_File_Name[:challenge_start]
-        Future_Date = Future_File_Name[
-            challenge_start + 15:stats_start - 12
-        ]
+        Future_Date = Future_File_Name[challenge_start + 15:stats_start - 12]
         Future_Month = Future_Date[5:7]
 
     # Open stats files
@@ -208,9 +205,9 @@ for i in range(0, len(files)):
             Max_Score = int(round(float(Score), 2))
         # If future score is the same month
         if (
-                Month == Future_Month
-                and Task_Name == Future_Task_Name
-                and i != len(files) - 1
+            Month == Future_Month
+            and Task_Name == Future_Task_Name
+            and i != len(files) - 1
         ):
             Count += 1
             Score_Sum = round(Score_Sum + int(round(float(Score), 2)), 2)
