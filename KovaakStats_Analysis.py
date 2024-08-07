@@ -3,7 +3,12 @@ from xlwt import Workbook, easyxf
 
 # ENTER KOVAAK STATS PATH
 # Example path to files associated with steam account
-# path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FPSAimTrainer\\FPSAimTrainer\\stats"
+
+# path = (
+#     "C:\\Program Files (x86)\\Steam\\steamapps\\common\\"
+#     "FPSAimTrainer\\FPSAimTrainer\\stats"
+# )
+
 path = "C:\\code\\Python\\Github\\KovaaK-Stats-Analysis\\ExampleStats"
 # THIS FUNCTION CREATES AN ARRAY OF ALL THE FILE NAMES IN THE PATH
 files = listdir(path)
@@ -30,13 +35,16 @@ sheet3.write(0, 2, 'Monthly Plays', easyxf('font: bold 1'))
 sheet3.write(0, 3, 'Ave Score', easyxf('font: bold 1'))
 sheet3.write(0, 4, 'Max Score', easyxf('font: bold 1'))
 sheet3.write(0, 5, 'Ave Sens', easyxf('font: bold 1'))
-# ITERATE THROUGH ALL KOVAAK STATS FILES################################################################################
+# ITERATE THROUGH ALL KOVAAK STATS FILES#######################################
 for i in range(0, len(files)):
     # GET TASK NAME FROM FILE NAME
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
     # GET TASK DATE FROM FILE NAME
-    Date = File_Name[File_Name.find(" - Challenge - ") + 15:File_Name.find(" Stats") - 9]
+    Date = File_Name[
+           File_Name.find(" - Challenge - ") + 15:
+           File_Name.find(" Stats") - 9
+    ]
     Date = Date[5:7] + "/" + Date[8:10] + "/" + Date[0:4]
     # ITERATE THROUGH EVERY LINE OF EACH KOVAAK STATS FILE
     # OPEN STATS FILES
@@ -58,25 +66,38 @@ for i in range(0, len(files)):
         sheet1.write(i+1, 1, Date)
         sheet1.write(i+1, 2, round(float(Score), 2))
         sheet1.write(i+1, 3, round(float(Sens), 2))
-# ITERATE THROUGH ALL KOVAAK STATS FILES DAILY##########################################################################
+# ITERATE THROUGH ALL KOVAAK STATS FILES DAILY#################################
 Count = 1
 Score_Sum = 0
 Sens_Sum = 0
 Max_Score = 0
-iter = 0
+row_index = 0
 for i in range(0, len(files)):
     # GET TASK NAME FROM FILE NAME
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
     # GET TASK DATE FROM FILE NAME
-    Date = File_Name[File_Name.find(" - Challenge - ") + 15:File_Name.find(" Stats") - 9]
+    Date = File_Name[
+           File_Name.find(" - Challenge - ") + 15:
+           File_Name.find(" Stats") - 9
+    ]
     # GET DAY
     Day = Date[8:]
+
+    Future_Task_Name = None
+    Future_Day = None
+
     # NEXT STATS
     if i < len(files)-1:
         Future_File_Name = files[i + 1]
-        Future_Task_Name = Future_File_Name[0:Future_File_Name.find(" - Challenge - ")]
-        Future_Date = Future_File_Name[Future_File_Name.find(" - Challenge - ") + 15:Future_File_Name.find(" Stats") - 9]
+        challenge_start = Future_File_Name.find(" - Challenge - ")
+        stats_start = Future_File_Name.find(" Stats")
+        Future_Task_Name = Future_File_Name[
+            :challenge_start
+        ]
+        Future_Date = Future_File_Name[
+            challenge_start + 15:stats_start - 9
+        ]
         Future_Day = Future_Date[8:]
     # OPEN STATS FILES
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
@@ -96,48 +117,68 @@ for i in range(0, len(files)):
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
         # IF FUTURE SCORE IS THE SAME DAY
-        if Day == Future_Day and Task_Name == Future_Task_Name and i != len(files)-1:
-            Count = Count + 1
+        if (
+            Day == Future_Day
+            and Task_Name == Future_Task_Name
+            and i != len(files) - 1
+        ):
+            Count += 1
             Score_Sum = round(Score_Sum + int(round(float(Score), 2)), 2)
             Sens_Sum = round(Sens_Sum + int(round(float(Sens), 2)), 2)
         # IF FUTURE SCORE IS NOT THE SAME DAY
         else:
             # BE SURE COUNT IS GREATER THEN 1
             if Count > 1:
-                Score = round((Score_Sum + int(round(float(Score), 2))) / Count, 2)
-                Sens = round((Sens_Sum + int(round(float(Sens), 2))) / Count, 2)
+                Score = round(
+                    (Score_Sum + int(round(float(Score), 2))) / Count, 2
+                )
+                Sens = round(
+                    (Sens_Sum + int(round(float(Sens), 2))) / Count, 2
+                )
             # WRITE RESULTS TO EXCEL FILE
-            sheet2.write(iter + 1, 0, Task_Name)
-            sheet2.write(iter + 1, 1, Date)
-            sheet2.write(iter + 1, 2, Count)
-            sheet2.write(iter + 1, 3, round(float(Score), 2))
-            sheet2.write(iter + 1, 4, round(float(Max_Score), 2))
-            sheet2.write(iter + 1, 5, round(float(Sens), 2))
-            iter = iter + 1
+            sheet2.write(row_index + 1, 0, Task_Name)
+            sheet2.write(row_index + 1, 1, Date)
+            sheet2.write(row_index + 1, 2, Count)
+            sheet2.write(row_index + 1, 3, round(float(Score), 2))
+            sheet2.write(row_index + 1, 4, round(float(Max_Score), 2))
+            sheet2.write(row_index + 1, 5, round(float(Sens), 2))
+            row_index = row_index + 1
             # RESET VALUES
             Count = 1
             Score_Sum = 0
             Sens_Sum = 0
             Max_Score = 0
-# ITERATE THROUGH ALL KOVAAK STATS FILES MONTHLY########################################################################
+# ITERATE THROUGH ALL KOVAAK STATS FILES MONTHLY###############################
 Count = 1
 Score_Sum = 0
 Sens_Sum = 0
 Max_Score = 0
-iter = 0
+row_index = 0
 for i in range(0, len(files)):
     # GET TASK NAME FROM FILE NAME
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
     # GET TASK DATE FROM FILE NAME
-    Date = File_Name[File_Name.find(" - Challenge - ") + 15:File_Name.find(" Stats") - 12]
+    challenge_start = File_Name.find(" - Challenge - ") + 15
+    stats_end = File_Name.find(" Stats") - 12
+
+    Date = File_Name[challenge_start:stats_end]
     # GET MONTH
     Month = Date[5:7]
+
+    Future_Task_Name = None
+    Future_Month = None
+
     # NEXT STATS
     if i < len(files)-1:
         Future_File_Name = files[i + 1]
-        Future_Task_Name = Future_File_Name[0:Future_File_Name.find(" - Challenge - ")]
-        Future_Date = Future_File_Name[Future_File_Name.find(" - Challenge - ") + 15:Future_File_Name.find(" Stats") - 12]
+        challenge_start = Future_File_Name.find(" - Challenge - ")
+        stats_start = Future_File_Name.find(" Stats")
+
+        Future_Task_Name = Future_File_Name[:challenge_start]
+        Future_Date = Future_File_Name[
+            challenge_start + 15:stats_start - 12
+        ]
         Future_Month = Future_Date[5:7]
     # OPEN STATS FILES
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
@@ -157,24 +198,32 @@ for i in range(0, len(files)):
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
         # IF FUTURE SCORE IS THE SAME MONTH
-        if Month == Future_Month and Task_Name == Future_Task_Name and i != len(files)-1:
-            Count = Count + 1
+        if (
+                Month == Future_Month
+                and Task_Name == Future_Task_Name
+                and i != len(files) - 1
+        ):
+            Count += 1
             Score_Sum = round(Score_Sum + int(round(float(Score), 2)), 2)
             Sens_Sum = round(Sens_Sum + int(round(float(Sens), 2)), 2)
         # IF FUTURE SCORE IS NOT THE SAME MONTH
         else:
             # BE SURE COUNT IS GREATER THEN 1
             if Count > 1:
-                Score = round((Score_Sum + int(round(float(Score), 2))) / Count, 2)
-                Sens = round((Sens_Sum + int(round(float(Sens), 2))) / Count, 2)
+                Score = round(
+                    (Score_Sum + int(round(float(Score), 2))) / Count, 2
+                )
+                Sens = round(
+                    (Sens_Sum + int(round(float(Sens), 2))) / Count, 2
+                )
             # WRITE RESULTS TO EXCEL FILE
-            sheet3.write(iter + 1, 0, Task_Name)
-            sheet3.write(iter + 1, 1, Date)
-            sheet3.write(iter + 1, 2, Count)
-            sheet3.write(iter + 1, 3, round(float(Score), 2))
-            sheet3.write(iter + 1, 4, round(float(Max_Score), 2))
-            sheet3.write(iter + 1, 5, round(float(Sens), 2))
-            iter = iter + 1
+            sheet3.write(row_index + 1, 0, Task_Name)
+            sheet3.write(row_index + 1, 1, Date)
+            sheet3.write(row_index + 1, 2, Count)
+            sheet3.write(row_index + 1, 3, round(float(Score), 2))
+            sheet3.write(row_index + 1, 4, round(float(Max_Score), 2))
+            sheet3.write(row_index + 1, 5, round(float(Sens), 2))
+            row_index = row_index + 1
             # RESET VALUES
             Count = 1
             Score_Sum = 0
