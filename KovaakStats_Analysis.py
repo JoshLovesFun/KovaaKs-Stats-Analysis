@@ -13,12 +13,12 @@ path = "C:\\code\\Python\\Github\\KovaaK-Stats-Analysis\\ExampleStats"
 # This function creates an array of all the file names in the path
 files = listdir(path)
 files.sort()
-# Create excel workbook and worksheets
+# Create Excel workbook and worksheets
 wb = Workbook()
 sheet1 = wb.add_sheet('All Stats')
 sheet2 = wb.add_sheet('Daily Stats')
 sheet3 = wb.add_sheet('Monthly Stats')
-# CREATE EXCEL TABLE TITLES
+# Create Excel table titles
 sheet1.write(0, 0, 'Name', easyxf('font: bold 1'))
 sheet1.write(0, 1, 'Date', easyxf('font: bold 1'))
 sheet1.write(0, 2, 'Score', easyxf('font: bold 1'))
@@ -101,22 +101,22 @@ for i in range(0, len(files)):
         Future_Day = Future_Date[8:]
     # Open stats files
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
-        # ITERATE THROUGH EVERY LINE OF EACH KovaaK's STATS FILE
+        # Iterate through every line of each KovaaK's stats file
         for ii in csvfile:
-            # IF LINE HAS SCORE IN IT
+            # If line has score in it
             if "Score" in ii:
-                # GET SCORE FROM STATS FILE
+                # Get score from stats file
                 Score = ii[7:].strip()
             if "Horiz Sens" in ii:
-                # GET SENS FROM STATS FILE
+                # Get sens from stats file
                 Sens = ii[12:].strip()
-        # convert valorant to cm/360
+        # Convert valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
             Sens = round(16.33/round(float(Sens), 2), 2)
-        # PULL MAX VALUE FROM RANGE
+        # Pull max value from range
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
-        # IF FUTURE SCORE IS THE SAME DAY
+        # If future score is the same day
         if (
             Day == Future_Day
             and Task_Name == Future_Task_Name
@@ -125,9 +125,9 @@ for i in range(0, len(files)):
             Count += 1
             Score_Sum = round(Score_Sum + int(round(float(Score), 2)), 2)
             Sens_Sum = round(Sens_Sum + int(round(float(Sens), 2)), 2)
-        # IF FUTURE SCORE IS NOT THE SAME DAY
+        # If future score is not the same day
         else:
-            # BE SURE COUNT IS GREATER THEN 1
+            # Be sure count is greater than 1
             if Count > 1:
                 Score = round(
                     (Score_Sum + int(round(float(Score), 2))) / Count, 2
@@ -182,7 +182,7 @@ for i in range(0, len(files)):
         Future_Month = Future_Date[5:7]
     # Open stats files
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
-        # ITERATE THROUGH EVERY LINE OF EACH KovaaK's STATS FILE
+        # Iterate through every line of each KovaaK's stats file
         for ii in csvfile:
             # If line has score in it
             if "Score" in ii:
