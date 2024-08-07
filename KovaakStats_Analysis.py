@@ -135,7 +135,7 @@ for i in range(0, len(files)):
                 Sens = round(
                     (Sens_Sum + int(round(float(Sens), 2))) / Count, 2
                 )
-            # WRITE RESULTS TO EXCEL FILE
+            # Write results to Excel file
             sheet2.write(row_index + 1, 0, Task_Name)
             sheet2.write(row_index + 1, 1, Date)
             sheet2.write(row_index + 1, 2, Count)
@@ -143,33 +143,33 @@ for i in range(0, len(files)):
             sheet2.write(row_index + 1, 4, round(float(Max_Score), 2))
             sheet2.write(row_index + 1, 5, round(float(Sens), 2))
             row_index = row_index + 1
-            # RESET VALUES
+            # Reset values
             Count = 1
             Score_Sum = 0
             Sens_Sum = 0
             Max_Score = 0
-# ITERATE THROUGH ALL KovaaK's STATS FILES MONTHLY###############################
+# Iterate through all KovaaK's stats files monthly ############################
 Count = 1
 Score_Sum = 0
 Sens_Sum = 0
 Max_Score = 0
 row_index = 0
 for i in range(0, len(files)):
-    # GET TASK NAME FROM FILE NAME
+    # Get task name from file name
     File_Name = files[i]
     Task_Name = File_Name[0:File_Name.find(" - Challenge - ")]
-    # GET TASK DATE FROM FILE NAME
+    # Get task date from file name
     challenge_start = File_Name.find(" - Challenge - ") + 15
     stats_end = File_Name.find(" Stats") - 12
 
     Date = File_Name[challenge_start:stats_end]
-    # GET MONTH
+    # Get month
     Month = Date[5:7]
 
     Future_Task_Name = None
     Future_Month = None
 
-    # NEXT STATS
+    # Next stats
     if i < len(files)-1:
         Future_File_Name = files[i + 1]
         challenge_start = Future_File_Name.find(" - Challenge - ")
@@ -180,24 +180,24 @@ for i in range(0, len(files)):
             challenge_start + 15:stats_start - 12
         ]
         Future_Month = Future_Date[5:7]
-    # OPEN STATS FILES
+    # Open stats files
     with open(f"{path}/{files[i]}", newline='\n') as csvfile:
         # ITERATE THROUGH EVERY LINE OF EACH KovaaK's STATS FILE
         for ii in csvfile:
-            # IF LINE HAS SCORE IN IT
+            # If line has score in it
             if "Score" in ii:
-                # GET SCORE FROM STATS FILE
+                # Get score from stats file
                 Score = ii[7:].strip()
             if "Horiz Sens" in ii:
-                # GET SENS FROM STATS FILE
+                # Get sens from stats file
                 Sens = ii[12:].strip()
-        # convert valorant to cm/360
+        # Convert valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
             Sens = round(16.33/round(float(Sens), 2), 2)
-        # PULL MAX VALUE FROM RANGE
+        # Pull max value from range
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
-        # IF FUTURE SCORE IS THE SAME MONTH
+        # If future score is the same month
         if (
                 Month == Future_Month
                 and Task_Name == Future_Task_Name
@@ -206,9 +206,9 @@ for i in range(0, len(files)):
             Count += 1
             Score_Sum = round(Score_Sum + int(round(float(Score), 2)), 2)
             Sens_Sum = round(Sens_Sum + int(round(float(Sens), 2)), 2)
-        # IF FUTURE SCORE IS NOT THE SAME MONTH
+        # If future score is not the same month
         else:
-            # BE SURE COUNT IS GREATER THEN 1
+            # Be sure count is greater than 1
             if Count > 1:
                 Score = round(
                     (Score_Sum + int(round(float(Score), 2))) / Count, 2
@@ -216,7 +216,7 @@ for i in range(0, len(files)):
                 Sens = round(
                     (Sens_Sum + int(round(float(Sens), 2))) / Count, 2
                 )
-            # WRITE RESULTS TO EXCEL FILE
+            # Write results to Excel file
             sheet3.write(row_index + 1, 0, Task_Name)
             sheet3.write(row_index + 1, 1, Date)
             sheet3.write(row_index + 1, 2, Count)
@@ -224,10 +224,10 @@ for i in range(0, len(files)):
             sheet3.write(row_index + 1, 4, round(float(Max_Score), 2))
             sheet3.write(row_index + 1, 5, round(float(Sens), 2))
             row_index = row_index + 1
-            # RESET VALUES
+            # Reset values
             Count = 1
             Score_Sum = 0
             Sens_Sum = 0
             Max_Score = 0
-# CLOSE EXCEL FILE
+# Close Excel file
 wb.save('KovaaK_Stats_Analysis.xls')
