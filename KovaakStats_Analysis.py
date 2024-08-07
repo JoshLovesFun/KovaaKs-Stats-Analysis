@@ -1,12 +1,10 @@
 from os import listdir
-import xlwt
-from xlwt import Workbook
-from pptx import Presentation
-from pptx.chart.data import CategoryChartData, ChartData, XyChartData
-from pptx.enum.chart import XL_CHART_TYPE
-from pptx.util import Inches
+from xlwt import Workbook, easyxf
+
 # ENTER KOVAAK STATS PATH
-path = "C:\Program Files (x86)\Steam\steamapps\common\FPSAimTrainer\FPSAimTrainer\stats"
+# Example path to files associated with steam account
+# path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FPSAimTrainer\\FPSAimTrainer\\stats"
+path = "C:\\code\\Python\\Github\\KovaaK-Stats-Analysis\\ExampleStats"
 # THIS FUNCTION CREATES AN ARRAY OF ALL THE FILE NAMES IN THE PATH
 files = listdir(path)
 files.sort()
@@ -16,22 +14,22 @@ sheet1 = wb.add_sheet('All Stats')
 sheet2 = wb.add_sheet('Daily Stats')
 sheet3 = wb.add_sheet('Monthly Stats')
 # CREATE EXCEL TABLE TITLES
-sheet1.write(0, 0, 'Name', xlwt.easyxf('font: bold 1'))
-sheet1.write(0, 1, 'Date', xlwt.easyxf('font: bold 1'))
-sheet1.write(0, 2, 'Score', xlwt.easyxf('font: bold 1'))
-sheet1.write(0, 3, 'Sens', xlwt.easyxf('font: bold 1'))
-sheet2.write(0, 0, 'Name', xlwt.easyxf('font: bold 1'))
-sheet2.write(0, 1, 'Date', xlwt.easyxf('font: bold 1'))
-sheet2.write(0, 2, 'Daily Plays', xlwt.easyxf('font: bold 1'))
-sheet2.write(0, 3, 'Ave Score', xlwt.easyxf('font: bold 1'))
-sheet2.write(0, 4, 'Max Score', xlwt.easyxf('font: bold 1'))
-sheet2.write(0, 5, 'Ave Sens', xlwt.easyxf('font: bold 1'))
-sheet3.write(0, 0, 'Name', xlwt.easyxf('font: bold 1'))
-sheet3.write(0, 1, 'Date', xlwt.easyxf('font: bold 1'))
-sheet3.write(0, 2, 'Monthly Plays', xlwt.easyxf('font: bold 1'))
-sheet3.write(0, 3, 'Ave Score', xlwt.easyxf('font: bold 1'))
-sheet3.write(0, 4, 'Max Score', xlwt.easyxf('font: bold 1'))
-sheet3.write(0, 5, 'Ave Sens', xlwt.easyxf('font: bold 1'))
+sheet1.write(0, 0, 'Name', easyxf('font: bold 1'))
+sheet1.write(0, 1, 'Date', easyxf('font: bold 1'))
+sheet1.write(0, 2, 'Score', easyxf('font: bold 1'))
+sheet1.write(0, 3, 'Sens', easyxf('font: bold 1'))
+sheet2.write(0, 0, 'Name', easyxf('font: bold 1'))
+sheet2.write(0, 1, 'Date', easyxf('font: bold 1'))
+sheet2.write(0, 2, 'Daily Plays', easyxf('font: bold 1'))
+sheet2.write(0, 3, 'Ave Score', easyxf('font: bold 1'))
+sheet2.write(0, 4, 'Max Score', easyxf('font: bold 1'))
+sheet2.write(0, 5, 'Ave Sens', easyxf('font: bold 1'))
+sheet3.write(0, 0, 'Name', easyxf('font: bold 1'))
+sheet3.write(0, 1, 'Date', easyxf('font: bold 1'))
+sheet3.write(0, 2, 'Monthly Plays', easyxf('font: bold 1'))
+sheet3.write(0, 3, 'Ave Score', easyxf('font: bold 1'))
+sheet3.write(0, 4, 'Max Score', easyxf('font: bold 1'))
+sheet3.write(0, 5, 'Ave Sens', easyxf('font: bold 1'))
 # ITERATE THROUGH ALL KOVAAK STATS FILES################################################################################
 for i in range(0, len(files)):
     # GET TASK NAME FROM FILE NAME
