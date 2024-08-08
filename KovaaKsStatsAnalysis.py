@@ -2,6 +2,7 @@ from os import listdir
 from xlwt import Workbook, easyxf
 
 BOLD_FONT_FORMAT = easyxf('font: bold 1')
+VALORANT_SENSITIVITY_CONVERSION = 16.33
 
 # Example path to files associated with Steam account
 # path = (
@@ -10,7 +11,7 @@ BOLD_FONT_FORMAT = easyxf('font: bold 1')
 # )
 
 # Enter KovaaK's stats path
-path = "C:\\code\\Python\\Github\\KovaaK-Stats-Analysis\\ExampleStats"
+path = "C:\\Code\\Python\\GitHub\\KovaaKs-Stats-Analysis\\ExampleStats"
 
 # This function creates an array of all the file names in the path
 files = listdir(path)
@@ -64,10 +65,13 @@ for i in range(0, len(files)):
             if "Horiz Sens" in ii:
                 # Get sens from stats file
                 Sens = ii[12:].strip()
-        # Convert valorant to cm/360
+        # Convert Valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
-            Sens = round(16.33 / round(float(Sens), 2), 2)
+            Sens = round(
+                VALORANT_SENSITIVITY_CONVERSION / round(float(Sens), 2), 2
+            )
             Sens = str(Sens)
+
         # Write results to text file
         sheet1.write(i+1, 0, Task_Name)
         sheet1.write(i+1, 1, Date)
@@ -98,7 +102,7 @@ for i in range(0, len(files)):
     Future_Day = None
 
     # Next stats
-    if i < len(files)-1:
+    if i < len(files) - 1:
         Future_File_Name = files[i + 1]
         challenge_start = Future_File_Name.find(" - Challenge - ")
         stats_start = Future_File_Name.find(" Stats")
@@ -117,9 +121,11 @@ for i in range(0, len(files)):
             if "Horiz Sens" in ii:
                 # Get sens from stats file
                 Sens = ii[12:].strip()
-        # Convert valorant to cm/360
+        # Convert Valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
-            Sens = round(16.33 / round(float(Sens), 2), 2)
+            Sens = round(
+                VALORANT_SENSITIVITY_CONVERSION / round(float(Sens), 2), 2
+            )
         # Pull max value from range
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
@@ -179,7 +185,7 @@ for i in range(0, len(files)):
     Future_Month = None
 
     # Next stats
-    if i < len(files)-1:
+    if i < len(files) - 1:
         Future_File_Name = files[i + 1]
         challenge_start = Future_File_Name.find(" - Challenge - ")
         stats_start = Future_File_Name.find(" Stats")
@@ -199,9 +205,11 @@ for i in range(0, len(files)):
             if "Horiz Sens" in ii:
                 # Get sens from stats file
                 Sens = ii[12:].strip()
-        # Convert valorant to cm/360
+        # Convert Valorant to cm/360
         if int(round(float(Sens), 2)) < 1:
-            Sens = round(16.33 / round(float(Sens), 2), 2)
+            Sens = round(
+                VALORANT_SENSITIVITY_CONVERSION / round(float(Sens), 2), 2
+            )
         # Pull max value from range
         if int(round(float(Score), 2)) > Max_Score:
             Max_Score = int(round(float(Score), 2))
@@ -231,7 +239,7 @@ for i in range(0, len(files)):
             sheet3.write(row_index + 1, 3, round(float(Score), 2))
             sheet3.write(row_index + 1, 4, round(float(Max_Score), 2))
             sheet3.write(row_index + 1, 5, round(float(Sens), 2))
-            row_index = row_index + 1
+            row_index += 1
             # Reset values
             Count = 1
             Score_Sum = 0
